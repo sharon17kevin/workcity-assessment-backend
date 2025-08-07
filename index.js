@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const clients = require('./routes/clients')
+const projects = require('./routes/projects')
 const dotenv = require('dotenv');
 dotenv.config();
 const config = require("config");
@@ -12,6 +14,8 @@ mongoose.connect('mongodb://localhost/workcity')
     .catch(err => console.error('Could not connect to MongoDB', err))
 
 app.use(express.json());
+app.use('/api/clients', clients);
+app.use('/api/projects', projects);
 
 
 
