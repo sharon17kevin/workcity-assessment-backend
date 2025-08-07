@@ -1,74 +1,80 @@
-const {Project, validProject} = require('../model/project')
+const {Project, validProject, validateProject} = require('../model/project')
 const express = require('express');
 const router = express.Router();
 
 router.post('/', async (req, res) => {
-    const { error } = validateClient(req.body); 
+    const { error } = validProject(req.body); 
     if (error) return res.status(400).send(error.details[0].message);
 
-    let client = new Client({ 
+    let project = new Project({ 
       name: req.body.name,
-      email: req.body.email,
-      role: req.body.role,
-      department: req.body.department,
-      joinDate: req.body.joinDate,
+      description: req.body.description,
       status: req.body.status,
-      projectCount: req.body.projectCount
+      priority: req.body.priority,
+      startDate: req.body.startDate,
+      endDate: req.body.endDate,
+      progress: req.body.progress,
+      teamMembers: req.body.teamMembers,
+      budget: req.body.budget,
+      tag: req.body.tag
     });
-    client = await client.save();
+    project = await project.save();
     
-    res.send(client);
+    res.send(project);
 });
 
 router.put('/', async (req, res) => {
-    const { error } = validateClient(req.body); 
+    const { error } = validateProject(req.body); 
     if (error) return res.status(400).send(error.details[0].message);
 
-    const client = await Client.findByIdAndUpdate(req.query.id,
+    const project = await Project.findByIdAndUpdate(req.query.id,
       { 
         name: req.body.name,
-        email: req.body.email,
-        role: req.body.role,
-        department: req.body.department,
-        joinDate: req.body.joinDate,
+        description: req.body.description,
         status: req.body.status,
-        projectCount: req.body.projectCount
+        priority: req.body.priority,
+        startDate: req.body.startDate,
+        endDate: req.body.endDate,
+        progress: req.body.progress,
+        teamMembers: req.body.teamMembers,
+        budget: req.body.budget,
+        tag: req.body.tag
       }, { new: true });
   
-    if (!client) return res.status(404).send('The client with the given ID was not found.');
+    if (!project) return res.status(404).send('The project with the given ID was not found.');
     
-    res.send(client);
+    res.send(project);
 });
 
 router.delete('/', async (req, res) => {
-    const client = await Client.findByIdAndRemove(req.query.id);
-    if (!client) return res.status(404).send('The client with the given ID was not found.');
-    res.send(client);
+    const project = await Project.findByIdAndRemove(req.query.id);
+    if (!project) return res.status(404).send('The project with the given ID was not found.');
+    res.send(project);
 });
 
 router.get('/one', async (req, res) => {
   if (req.query.id) {
-    const client = await Client.find({
+    const project = await Project.find({
       _id: {
         $in: req.query.id
       }
     });
-    if (!client) return res.status(404).send('The client with the given ID was not found.');
-    res.send(client);
+    if (!project) return res.status(404).send('The project with the given ID was not found.');
+    res.send(project);
   } else {
-    const client = await Client.find().sort('name');
-    res.send(client);
+    const project = await Project.find().sort('name');
+    res.send(project);
   }
 });
 
 router.get('/', async (req, res) => {
   if (req.query.id) {
-    const client = await Client.findById(req.query.id);
-    if (!client) return res.status(404).send('The client with the given ID was not found.');
-    res.send(client);
+    const project = await Project.findById(req.query.id);
+    if (!project) return res.status(404).send('The project with the given ID was not found.');
+    res.send(project);
   } else {
-    const client = await Client.find().sort('name');
-    res.send(client);
+    const project = await Project.find().sort('name');
+    res.send(project);
   }
 })
 
