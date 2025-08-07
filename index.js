@@ -3,7 +3,6 @@ const clients = require('./routes/clients')
 const projects = require('./routes/projects')
 const dotenv = require('dotenv');
 dotenv.config();
-const config = require("config");
  
 const express = require('express');
 const app = express();
@@ -21,3 +20,5 @@ app.use('/api/projects', projects);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
+
+module.exports = app;

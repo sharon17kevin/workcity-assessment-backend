@@ -71,4 +71,4 @@ function validateProject(project) {
 
 exports.Project = Project;
 exports.validateProject = validateProject;
-exports.clientProject = clientProject;
+exports.projectSchema = projectSchema;
