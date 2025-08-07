@@ -52,9 +52,9 @@ const projectSchema = new mongoose.Schema({
   },
 });
 
-const Client = mongoose.model("Client", clientSchema);
+const Project = mongoose.model("Project", projectSchema);
 
-function validateClient(client) {
+function validateProject(project) {
   const schema = Joi.object({
     name: Joi.string().min(5).max(50).required(),
     description: Joi.string().min(5).max(255).required().email(),
@@ -66,9 +66,9 @@ function validateClient(client) {
     teamMembers: Joi.array()
   });
 
-  return schema.validate(client);
+  return schema.validate(project);
 }
 
-exports.Client = Client;
-exports.validateClient = validateClient;
-exports.clientSchema = clientSchema;
+exports.Project = Project;
+exports.validateProject = validateProject;
+exports.clientProject = clientProject;
